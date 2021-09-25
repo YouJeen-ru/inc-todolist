@@ -8,6 +8,8 @@ export type TaskType = {
     isDone: boolean
 }
 
+export type FilerValueType = 'all' | 'active' | 'completed'
+
 function App() {
     //BLL:
     let [tasks, setTasks] = useState([
@@ -22,13 +24,30 @@ function App() {
         let filteredTasks = tasks.filter(task => task.id !== id)
         setTasks(filteredTasks)
     }
+
+    let [filter, setFilter] = useState<FilerValueType>('all')
+
+    let taskForTodolist = tasks
+
+    if (filter === 'active') {
+        taskForTodolist = tasks.filter(t => !t.isDone)
+    }
+
+    if (filter === 'completed') {
+        taskForTodolist = tasks.filter(t => t.isDone)
+    }
+
+    const changeFilter = (value: 'all' | 'active' | 'completed') => {
+        setFilter(value)
+    }
     //UI:
     return (
         <div className="App">
             <TodoList
                 title='What to learn'
-                tasks={tasks}
+                tasks={taskForTodolist}
                 removeTask={removeTask}
+                changeFilter={changeFilter}
             />
         </div>
     );
