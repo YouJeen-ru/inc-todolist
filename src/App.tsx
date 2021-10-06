@@ -30,6 +30,11 @@ function App() {
         let newTasks = [task, ...tasks]
         setTasks(newTasks)
     }
+    
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        const updateTasks = tasks.map(task => task.id === taskId ? {...task, isDone: !task.isDone} : task)
+        setTasks(updateTasks)
+    }
 
     let [filter, setFilter] = useState<FilerValueType>('all')
 
@@ -56,6 +61,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     );
