@@ -4,6 +4,7 @@ import {FilerValueType, TaskType} from "./App";
 type TodoListPropsType =  {
     title: string
     tasks: Array<TaskType>
+    filter: FilerValueType
     removeTask: (taskId: string) => void
     changeFilter: (value: FilerValueType) => void
     addTask: (title: string) => void
@@ -60,13 +61,13 @@ const TodoList = (props: TodoListPropsType) => {
                 { taskList }
             </ul>
             <div>
-                <button onClick={onAllClickHandler}>
+                <button className={props.filter === 'all' ? 'active-filter' : ''} onClick={onAllClickHandler}>
                     All
                 </button>
-                <button onClick={onActiveClickHandler}>
+                <button className={props.filter === 'active' ? 'active-filter' : ''} onClick={onActiveClickHandler}>
                     Active
                 </button>
-                <button onClick={onCompletedClickHandler}>
+                <button className={props.filter === 'completed' ? 'active-filter' : ''} onClick={onCompletedClickHandler}>
                     Completed
                 </button>
             </div>
