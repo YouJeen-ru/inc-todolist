@@ -10,3 +10,16 @@
 .active-filter {
   background-color: aquamarine;
 }
+
+.error {
+  border: 2px solid red;
+  outline: none;
+}
+
+.error-message {
+  color: red;
+}
+
+.is-done {
+  opacity: 0.5;
+}

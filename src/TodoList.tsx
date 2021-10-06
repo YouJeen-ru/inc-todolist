@@ -12,6 +12,10 @@ type TodoListPropsType =  {
 }
 
 const TodoList = (props: TodoListPropsType) => {
+    const [error, setError] = useState<boolean>(false)
+    const [title, setTitle] = useState('')
+
+
     const taskList =  props.tasks.map((task, _i) => {
 
         const removeClickHandler = () => props.removeTask(task.id)
@@ -20,7 +24,7 @@ const TodoList = (props: TodoListPropsType) => {
         }
 
         return (
-            <li key={task.id}>
+            <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                 <input
                     type="checkbox"
                     onChange={changeStatus}
@@ -29,21 +33,26 @@ const TodoList = (props: TodoListPropsType) => {
                 <span>{task.title}</span>
                 <button onClick={removeClickHandler}>x</button>
             </li>
-
         )
     })
 
-    const [title, setTitle] = useState('')
+
 
     const addTask = () => {
-        props.addTask(title)
+        const trimmedTitle = title.trim()
+        if (trimmedTitle) {
+            props.addTask(title)
+        } else {
+            setError(true)
+        }
         setTitle('')
     }
-    
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      setTitle(e.currentTarget.value)
+        setError(false)
+        setTitle(e.currentTarget.value)
     }
-    
+
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.charCode === 13) {
           addTask()
@@ -59,11 +68,13 @@ const TodoList = (props: TodoListPropsType) => {
             <h3>{props.title}</h3>
             <div>
                 <input
+                    className={error ? 'error' : ''}
                     value={title}
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
                 />
                 <button onClick={addTask}>+</button>
+                {error && <div className={'error-message'}>Title is required!</div>}
             </div>
             <ul>
                 { taskList }
