@@ -2,13 +2,14 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilerValueType, TaskType} from "./App";
 
 type TodoListPropsType =  {
+    id: string
     title: string
     tasks: Array<TaskType>
     filter: FilerValueType
-    removeTask: (taskId: string) => void
-    changeFilter: (value: FilerValueType) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    removeTask: (taskId: string, todoListId: string) => void
+    changeFilter: (value: FilerValueType, todoListId: string) => void
+    addTask: (title: string, todoListId: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
 }
 
 const TodoList = (props: TodoListPropsType) => {
@@ -18,9 +19,9 @@ const TodoList = (props: TodoListPropsType) => {
 
     const taskList =  props.tasks.map((task, _i) => {
 
-        const removeClickHandler = () => props.removeTask(task.id)
+        const removeClickHandler = () => props.removeTask(task.id, props.id)
         const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-            props.changeTaskStatus(task.id, event.currentTarget.checked)
+            props.changeTaskStatus(task.id, event.currentTarget.checked, props.id)
         }
 
         return (
@@ -41,7 +42,7 @@ const TodoList = (props: TodoListPropsType) => {
     const addTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
-            props.addTask(title)
+            props.addTask(title, props.id)
         } else {
             setError(true)
         }
@@ -59,9 +60,9 @@ const TodoList = (props: TodoListPropsType) => {
       }
     }
 
-    const onAllClickHandler = () => props.changeFilter('all')
-    const onActiveClickHandler = () => props.changeFilter('active')
-    const onCompletedClickHandler = () => props.changeFilter('completed')
+    const onAllClickHandler = () => props.changeFilter('all', props.id)
+    const onActiveClickHandler = () => props.changeFilter('active', props.id)
+    const onCompletedClickHandler = () => props.changeFilter('completed', props.id)
 
     return (
         <div>
