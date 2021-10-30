@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import AppWithReducers from "./AppWithReducers";
+
+import {Provider} from "react-redux";
+import {store} from "./store/store";
+import AppWithRedux from "./AppWithRedux";
 
 
-ReactDOM.render(<AppWithReducers />,  document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <AppWithRedux />
+    </Provider>,document.getElementById('root'));
 
 
 
