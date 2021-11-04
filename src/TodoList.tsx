@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilerValueType, TaskType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
@@ -51,7 +51,7 @@ const TodoList = (props: TodoListPropsType) => {
 
     const changeTodolistsTitle = (title: string) => props.changeTodolistsTitle(title, props.id)
 
-    const addTask = (title: string) => props.addTask(title, props.id)
+    const addTask = useCallback((title: string) => props.addTask(title, props.id), [props.addTask, props.id])
 
     const onAllClickHandler = () => props.changeFilter('all', props.id)
     const onActiveClickHandler = () => props.changeFilter('active', props.id)
